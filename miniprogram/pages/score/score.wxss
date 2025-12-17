@@ -10,26 +10,59 @@
 .student-switch .label { color: #666; font-size: 26rpx; }
 .student-switch .value { font-weight: bold; font-size: 30rpx; color: #333; }
 .exam-picker {
-  background: #f0f7ff; color: var(--primary-color);
+  background: #f0f7ff; color: #3A7CA5;
   padding: 10rpx 24rpx; border-radius: 30rpx;
   font-size: 26rpx; display: flex; align-items: center;
 }
 .arrow { margin-left: 8rpx; font-size: 20rpx; }
 
-/* 成绩总卡片 */
+/* 成绩总卡片 (新版) */
 .score-card {
   background: linear-gradient(135deg, #3A7CA5 0%, #68A5CE 100%);
   margin: 30rpx; padding: 40rpx; border-radius: 20rpx;
   color: #fff; box-shadow: 0 8rpx 20rpx rgba(58, 124, 165, 0.4);
 }
-.score-header { display: flex; justify-content: space-between; align-items: center; }
-.total-score .num { font-size: 80rpx; font-weight: bold; line-height: 1; }
-.total-score .unit { font-size: 28rpx; margin-left: 10rpx; opacity: 0.8; }
-.rank-badge {
-  background: rgba(255,255,255,0.2); padding: 10rpx 20rpx;
-  border-radius: 10rpx; font-size: 26rpx; backdrop-filter: blur(5px);
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.exam-time { margin-top: 30rpx; font-size: 22rpx; opacity: 0.7; text-align: right; }
+
+/* 左侧总分 */
+.total-section {
+  text-align: center;
+  flex: 1;
+}
+.total-label { font-size: 24rpx; opacity: 0.8; margin-bottom: 4rpx; }
+.total-num { font-size: 80rpx; font-weight: bold; line-height: 1; }
+.total-num .unit { font-size: 28rpx; margin-left: 6rpx; font-weight: normal; }
+
+/* 分割线 */
+.v-line {
+  width: 2rpx; height: 80rpx;
+  background: rgba(255,255,255,0.3);
+  margin: 0 40rpx;
+}
+
+/* 右侧排名 */
+.rank-section {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+}
+.rank-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  padding: 10rpx 20rpx;
+  border-radius: 10rpx;
+}
+.mt-10 { margin-top: 16rpx; }
+
+.rank-label { font-size: 24rpx; opacity: 0.9; }
+.rank-val { font-size: 32rpx; font-weight: bold; }
 
 /* 科目列表 */
 .subject-list {
@@ -51,7 +84,6 @@
 }
 .progress-bar { height: 100%; border-radius: 8rpx; transition: width 1s ease; }
 
-/* === 【核心修改】在这里定义三种颜色的类 === */
-.score-high { background-color: #52C41A; } /* 优秀：绿色 */
-.score-mid  { background-color: #3A7CA5; } /* 及格：蓝色 */
-.score-low  { background-color: #F5222D; } /* 不及格：红色 */
+.score-high { background-color: #52C41A; }
+.score-mid  { background-color: #3A7CA5; }
+.score-low  { background-color: #F5222D; }

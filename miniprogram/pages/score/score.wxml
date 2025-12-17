@@ -1,9 +1,11 @@
 <view class="container">
+  
   <view class="filter-bar">
     <view class="student-switch">
       <text class="label">当前学生：</text>
       <text class="value">{{studentList[currentStudentIndex].name}}</text>
     </view>
+    
     <picker mode="selector" range="{{scoreList}}" range-key="exam_name" bindchange="onPickerChange">
       <view class="exam-picker">
         <text>{{currentExam ? currentExam.exam_name : '暂无考试记录'}}</text>
@@ -13,25 +15,36 @@
   </view>
 
   <view class="score-card" wx:if="{{currentExam}}">
-    <view class="score-header">
-      <view class="total-score">
-        <text class="num">{{currentExam.total_score}}</text>
-        <text class="unit">分</text>
+    <view class="card-content">
+      <view class="total-section">
+        <view class="total-label">总分</view>
+        <view class="total-num">
+          {{currentExam.total_score}}<text class="unit">分</text>
+        </view>
       </view>
-      <view class="rank-badge">班级排名: {{currentExam.class_rank || '--'}}</view>
+      
+      <view class="v-line"></view>
+
+      <view class="rank-section">
+        <view class="rank-row">
+          <text class="rank-label">班级排名</text>
+          <text class="rank-val">{{currentExam.class_rank || '--'}}</text>
+        </view>
+        <view class="rank-row mt-10">
+          <text class="rank-label">年级排名</text>
+          <text class="rank-val">{{currentExam.grade_rank || '--'}}</text>
+        </view>
+      </view>
     </view>
-    <view class="exam-time">发布时间：{{currentExam.publish_time || '2025-10-20'}}</view>
   </view>
 
   <view class="subject-list" wx:if="{{currentExam}}">
     <block wx:for="{{currentExam.subjects}}" wx:key="name">
       <view class="subject-item">
         <view class="sub-name">{{item.name}}</view>
-        
         <view class="progress-box">
           <view class="progress-bar {{item.scoreClass}}" style="{{item.widthStyle}}"></view>
         </view>
-        
         <view class="sub-score">{{item.score}}</view>
       </view>
     </block>

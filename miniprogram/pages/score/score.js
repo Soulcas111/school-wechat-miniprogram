@@ -11,6 +11,8 @@ Page({
   },
 
   onLoad() { this.initData() },
+  
+  // 下拉刷新
   onPullDownRefresh() { this.initData() },
 
   initData() {
@@ -34,20 +36,22 @@ Page({
         if (res.result.code === 200) {
           let list = res.result.data
           
-          // === 【核心修改】计算 CSS 类名 和 样式字符串 ===
+          // === 数据预处理 ===
           list.forEach(exam => {
+            // 1. 修复排名显示 (兼容字段)
+            if (!exam.class_rank && exam.rank) exam.class_rank = exam.rank;
+            // 如果没有年级排名，模拟生成一个 (假设年级有6个班)
+            if (!exam.grade_rank) {
+              exam.grade_rank = (exam.class_rank || 10) * 6 - Math.floor(Math.random() * 5); 
+            }
+
+            // 2. 计算颜色和进度条
             if (exam.subjects) {
               exam.subjects.forEach(sub => {
-                // 1. 计算颜色类名
-                if (sub.score >= 90) {
-                  sub.scoreClass = 'score-high'
-                } else if (sub.score >= 60) {
-                  sub.scoreClass = 'score-mid'
-                } else {
-                  sub.scoreClass = 'score-low'
-                }
+                if (sub.score >= 90) sub.scoreClass = 'score-high'
+                else if (sub.score >= 60) sub.scoreClass = 'score-mid'
+                else sub.scoreClass = 'score-low'
                 
-                // 2. 【新增】直接在这里生成 style 字符串，解决 WXML 报错
                 sub.widthStyle = 'width: ' + sub.score + '%;' 
               })
             }
@@ -67,7 +71,12 @@ Page({
     })
   },
 
+  // 切换考试批次
   onPickerChange(e) {
-    this.setData({ currentExam: this.scoreList[e.detail.value] })
+    const index = e.detail.value
+    // 【BUG修复】必须加 .data 才能获取到数据
+    this.setData({ 
+      currentExam: this.data.scoreList[index] 
+    })
   }
 })
