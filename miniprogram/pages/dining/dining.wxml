@@ -38,7 +38,7 @@
   <view class="content-area" wx:if="{{currentTab == 1}}">
     <view class="balance-card">
       <view class="balance-title">当前饭卡余额</view>
-      <view class="balance-num">￥128.50</view>
+      <view class="balance-num">￥{{balance}}</view>
       <button class="btn-recharge" bindtap="onRecharge">立即充值</button>
     </view>
 

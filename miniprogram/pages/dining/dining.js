@@ -8,6 +8,9 @@ Page({
     currentTab: 0, // 0: 今日食谱, 1: 消费记录
     student: null,
     
+    // 新增：余额变量，初始值为 128.50
+    balance: 128.50,
+
     // 食谱数据
     menuList: [],
     currentDate: '',
@@ -20,11 +23,11 @@ Page({
   },
 
   onLoad(options) {
-    // onLoad 只在页面首次加载时触发，switchTab 传参在这里通常获取不到
+    // onLoad 只在页面首次加载时触发
     this.initData()
   },
 
-  // 【核心修复】每次页面显示时触发（包括从首页切过来）
+  // 每次页面显示时触发（包括从首页切过来）
   onShow() {
     // 检查全局变量里有没有“跳转到充值”的标记
     if (app.globalData.needSwitchToWallet) {
@@ -150,20 +153,40 @@ Page({
     }
   },
 
-  // --- 功能 D: 模拟充值 ---
+  // --- 功能 D: 模拟充值 (修复版) ---
   onRecharge() {
     wx.showModal({
       title: '在线充值',
-      content: '请输入充值金额（模拟支付）',
+      // 【修复1】将 content 留空，避免文字出现在输入框中或者干扰输入
+      content: '', 
       editable: true,
-      placeholderText: '例如: 100',
+      // 【修复1】把提示语放在 placeholderText 里
+      placeholderText: '请输入金额 (例如: 100)',
       success: (res) => {
+        // res.content 是用户输入的内容
         if (res.confirm && res.content) {
+          const amount = parseFloat(res.content)
+          
+          // 简单的金额校验
+          if (isNaN(amount) || amount <= 0) {
+            wx.showToast({ title: '请输入有效金额', icon: 'none' })
+            return
+          }
+
           wx.showLoading({ title: '充值中...' })
           setTimeout(() => {
             wx.hideLoading()
+            
+            // 【修复2】计算新余额并更新视图
+            // toFixed(2) 保证金额保留两位小数
+            const newBalance = this.data.balance + amount
+            this.setData({
+              balance: parseFloat(newBalance.toFixed(2))
+            })
+
             wx.showToast({ title: '充值成功', icon: 'success' })
-            // 刷新流水
+            
+            // 刷新流水（注意：因为是模拟充值，云端数据没变，所以流水列表里不会立刻出现这笔充值，但余额变了）
             this.loadWalletLogs(true)
           }, 1500)
         }
