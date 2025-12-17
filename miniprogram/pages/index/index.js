@@ -1,21 +1,18 @@
-// pages/index/index.js
 const app = getApp()
 
 Page({
   data: {
     userInfo: null,
     isLogin: false,
-    bannerList: ['#A0C4FF', '#BDB2FF', '#FFC6FF'], // 模拟轮播图颜色
+    bannerList: ['#A0C4FF', '#BDB2FF', '#FFC6FF'],
     menuList: [],
     newsList: []
   },
 
   onLoad: function () {
-    // 检查是否已完成自动登录
     if (app.globalData.isLogin) {
       this.initPage(app.globalData.roleInfo)
     } else {
-      // 注册回调，等待 app.js 登录完成
       app.loginCallback = (user) => {
         this.initPage(user)
       }
@@ -25,7 +22,6 @@ Page({
   initPage(user) {
     this.setData({ userInfo: user, isLogin: true })
     this.generateMenu(user.role)
-    // 暂时造几条假新闻数据，确保界面有内容
     this.setData({
       newsList: [
         { _id: '1', type: 'news', title: '关于举办秋季运动会的通知', author: '教务处', date: '2025-10-20' },
@@ -44,7 +40,7 @@ Page({
         { title: '充饭卡', icon: '💳', url: '/pages/dining/dining?type=recharge', color: '#FFF3E0' },
         { title: '家长课', icon: '🎓', url: '/pages/news/news', color: '#F3E5F5' }
       ]
-    } else { // teacher
+    } else { 
       menus = [
         { title: '班级成绩', icon: '📈', url: '/pages/score/score', color: '#E3F2FD' },
         { title: '发布作业', icon: '📝', url: '', color: '#E8F5E9' },
@@ -65,6 +61,20 @@ Page({
       }
     } else {
       wx.showToast({ title: '功能开发中', icon: 'none' })
+    }
+  },
+
+  // ✅ 【关键修复】补回了这个丢失的函数
+  onNewsTap(e) {
+    console.log('点击新闻，尝试跳转 ID:', e.currentTarget.dataset.id)
+    const id = e.currentTarget.dataset.id
+    if (id) {
+      wx.navigateTo({
+        url: `/pages/news-detail/news-detail?id=${id}`,
+        fail: (err) => {
+          console.error('跳转失败，请检查 app.json 是否注册了该页面', err)
+        }
+      })
     }
   }
 })

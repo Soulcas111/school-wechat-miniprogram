@@ -34,7 +34,7 @@
       <text class="section-title">校园动态</text>
     </view>
     <view class="news-list">
-      <view class="news-card" wx:for="{{newsList}}" wx:key="_id">
+      <view class="news-card" wx:for="{{newsList}}" wx:key="_id" bindtap="onNewsTap" data-id="{{item._id}}">
         <view class="news-type {{item.type}}">{{item.type=='news'?'通知':'课程'}}</view>
         <view class="news-content">
           <view class="news-title">{{item.title}}</view>
