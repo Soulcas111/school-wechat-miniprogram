@@ -1,2 +1,32 @@
-<!--pages/news/news.wxml-->
-<text>pages/news/news.wxml</text>
+<view class="container">
+  
+  <view class="tabs">
+    <block wx:for="{{tabs}}" wx:key="*this">
+      <view class="tab-item {{currentTab === index ? 'active' : ''}}" bindtap="onTabClick" data-index="{{index}}">
+        {{item}}
+        <view class="tab-line" wx:if="{{currentTab === index}}"></view>
+      </view>
+    </block>
+  </view>
+
+  <view class="list-container">
+    <block wx:for="{{newsList}}" wx:key="_id">
+      <view class="news-item" bindtap="onItemTap" data-id="{{item._id}}">
+        <view class="item-left">
+          <view class="item-title">{{item.title}}</view>
+          <view class="item-info">
+            <text class="tag {{item.type}}">{{item.type == 'news' ? '通知' : '课程'}}</text>
+            <text class="author">{{item.author}}</text>
+            <text class="time">{{item.dateStr}}</text>
+          </view>
+        </view>
+        <view class="item-right" wx:if="{{item.type === 'course'}}">
+          <image class="play-icon" src="../../images/icons/examples-active.png" mode="aspectFit"></image> </view>
+      </view>
+    </block>
+
+    <view wx:if="{{loading}}" class="status-box">加载中...</view>
+    <view wx:if="{{!loading && newsList.length === 0}}" class="status-box">暂无内容</view>
+  </view>
+
+</view>

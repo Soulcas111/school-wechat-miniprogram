@@ -1,0 +1,106 @@
+/* pages/news/news.wxss */
+.container {
+  min-height: 100vh;
+  background-color: #f6f6f6;
+}
+
+/* Tabs 样式 */
+.tabs {
+  display: flex;
+  background: #fff;
+  padding: 0 20rpx;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 30rpx 0;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+
+.tab-item.active {
+  color: #3A7CA5;
+  font-weight: bold;
+  font-size: 30rpx;
+}
+
+.tab-line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 6rpx;
+  background-color: #3A7CA5;
+  border-radius: 3rpx;
+}
+
+/* 列表样式 */
+.list-container {
+  padding: 20rpx;
+}
+
+.news-item {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.02);
+}
+
+.item-left {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.item-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.item-info {
+  font-size: 22rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+}
+
+.tag {
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+  color: #fff;
+  font-size: 20rpx;
+}
+
+.tag.news { background-color: #3A7CA5; }
+.tag.course { background-color: #FF9800; }
+
+.author {
+  margin-right: 16rpx;
+}
+
+.item-right .play-icon {
+  width: 60rpx;
+  height: 60rpx;
+  opacity: 0.6;
+}
+
+.status-box {
+  text-align: center;
+  padding: 40rpx;
+  color: #ccc;
+  font-size: 24rpx;
+}
