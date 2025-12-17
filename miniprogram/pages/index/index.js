@@ -55,6 +55,11 @@ Page({
     const url = e.currentTarget.dataset.url
     if (url) {
       if (url.includes('score') || url.includes('dining')) {
+        // 【核心修复】如果是充饭卡，通过全局变量传参
+        if (url.includes('type=recharge')) {
+          app.globalData.needSwitchToWallet = true; // 设置一个标记
+        }
+        
         wx.switchTab({ url })
       } else {
         wx.navigateTo({ url })

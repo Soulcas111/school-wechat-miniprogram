@@ -20,11 +20,22 @@ Page({
   },
 
   onLoad(options) {
-    // 如果是从首页点击"充饭卡"进来的，直接切到消费页
-    if (options.type === 'recharge') {
-      this.setData({ currentTab: 1 })
-    }
+    // onLoad 只在页面首次加载时触发，switchTab 传参在这里通常获取不到
     this.initData()
+  },
+
+  // 【核心修复】每次页面显示时触发（包括从首页切过来）
+  onShow() {
+    // 检查全局变量里有没有“跳转到充值”的标记
+    if (app.globalData.needSwitchToWallet) {
+      this.setData({ currentTab: 1 }) // 切换到消费记录 Tab
+      app.globalData.needSwitchToWallet = false // 用完即焚，防止下次误触
+      
+      // 如果还没加载过流水，顺便加载一下
+      if (this.data.walletLogs.length === 0) {
+        this.loadWalletLogs(true)
+      }
+    }
   },
 
   initData() {
@@ -36,13 +47,14 @@ Page({
     }
 
     // 默认取第一个孩子
-    const studentId = user.children_ids[0]
+    const studentId = user.children_ids ? user.children_ids[0] : ''
     this.setData({
       student: { id: studentId, name: '张小明' }, // 模拟名字
       currentDate: new Date().toISOString().split('T')[0]
     })
 
     this.loadMenus()
+    // 预加载第一页流水，避免切换时空白
     this.loadWalletLogs(true)
   },
 
@@ -50,49 +62,49 @@ Page({
   switchTab(e) {
     const idx = parseInt(e.currentTarget.dataset.index)
     this.setData({ currentTab: idx })
+    
+    // 如果切到消费记录且为空，加载数据
+    if (idx === 1 && this.data.walletLogs.length === 0) {
+      this.loadWalletLogs(true)
+    }
   },
 
-// --- 功能 B: 加载食谱 (数据库直连) ---
-loadMenus() {
-  db.collection('biz_menus')
-    .orderBy('date', 'desc') // 按日期倒序
-    .limit(7)
-    .get()
-    .then(res => {
-      // 【核心修复】拿到数据后，遍历每一条进行“整容”
-      const formattedList = res.data.map((item, index) => {
-        // 1. 修复日期显示 [object Object]
-        const dateObj = new Date(item.date);
-        const dateStr = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+  // --- 功能 B: 加载食谱 (数据库直连 + 前端美化) ---
+  loadMenus() {
+    db.collection('biz_menus')
+      .orderBy('date', 'desc') // 按日期倒序
+      .limit(7)
+      .get()
+      .then(res => {
+        // 数据美化处理
+        const formattedList = res.data.map((item, index) => {
+          const dateObj = new Date(item.date);
+          const dateStr = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+          const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+          const correctDay = weekDays[dateObj.getDay()];
 
-        // 2. 修复星期几全是“周三”的问题 (重新计算一遍)
-        const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-        const correctDay = weekDays[dateObj.getDay()];
+          // 演示用：轮流显示不同菜谱
+          const demoMeals = [
+            { b: '牛奶面包', l: '红烧肉套餐', d: '鲜肉水饺' },
+            { b: '皮蛋瘦肉粥', l: '宫保鸡丁', d: '番茄鸡蛋面' },
+            { b: '豆浆油条', l: '糖醋排骨', d: '馒头稀饭' }
+          ];
+          const food = demoMeals[index % 3]; 
 
-        // 3. (可选) 为了演示好看，如果我们生成的饭菜都一样，这里手动给它变一下
-        const demoMeals = [
-          { b: '牛奶面包', l: '红烧肉套餐', d: '鲜肉水饺' },
-          { b: '皮蛋瘦肉粥', l: '宫保鸡丁', d: '番茄鸡蛋面' },
-          { b: '豆浆油条', l: '糖醋排骨', d: '馒头稀饭' }
-        ];
-        // 轮流显示这三套菜
-        const food = demoMeals[index % 3]; 
+          return {
+            ...item,
+            date: dateStr,
+            week_day: correctDay,
+            meals: { breakfast: food.b, lunch: food.l, dinner: food.d } 
+          };
+        });
 
-        return {
-          ...item,
-          date: dateStr,       // 覆盖成字符串格式
-          week_day: correctDay, // 覆盖成正确的星期
-          // 如果你想让菜谱看起来不一样，可以取消下面这行的注释
-          meals: { breakfast: food.b, lunch: food.l, dinner: food.d } 
-        };
-      });
-
-      this.setData({ menuList: formattedList });
-    })
-    .catch(err => {
-      console.error('食谱加载失败', err)
-    })
-},
+        this.setData({ menuList: formattedList });
+      })
+      .catch(err => {
+        console.error('食谱加载失败', err)
+      })
+  },
 
   // --- 功能 C: 加载流水 (调用云函数) ---
   loadWalletLogs(isRefresh = false) {
@@ -101,6 +113,11 @@ loadMenus() {
     this.setData({ isLoading: true })
     if (isRefresh) {
       this.setData({ page: 0, walletLogs: [], hasMore: true })
+    }
+
+    if (!this.data.student || !this.data.student.id) {
+        this.setData({ isLoading: false })
+        return
     }
 
     wx.cloud.callFunction({
