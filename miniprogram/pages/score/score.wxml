@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="filter-bar">
+    <view class="student-switch">
+      <text class="label">当前学生：</text>
+      <text class="value">{{studentList[currentStudentIndex].name}}</text>
+    </view>
+    <picker mode="selector" range="{{scoreList}}" range-key="exam_name" bindchange="onPickerChange">
+      <view class="exam-picker">
+        <text>{{currentExam ? currentExam.exam_name : '暂无考试记录'}}</text>
+        <text class="arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="score-card" wx:if="{{currentExam}}">
+    <view class="score-header">
+      <view class="total-score">
+        <text class="num">{{currentExam.total_score}}</text>
+        <text class="unit">分</text>
+      </view>
+      <view class="rank-badge">班级排名: {{currentExam.class_rank || '--'}}</view>
+    </view>
+    <view class="exam-time">发布时间：{{currentExam.publish_time || '2025-10-20'}}</view>
+  </view>
+
+  <view class="subject-list" wx:if="{{currentExam}}">
+    <block wx:for="{{currentExam.subjects}}" wx:key="name">
+      <view class="subject-item">
+        <view class="sub-name">{{item.name}}</view>
+        
+        <view class="progress-box">
+          <view class="progress-bar {{item.scoreClass}}" style="{{item.widthStyle}}"></view>
+        </view>
+        
+        <view class="sub-score">{{item.score}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="empty-box" wx:if="{{!loading && !currentExam}}">
+    <text>暂无成绩记录</text>
+  </view>
+</view>

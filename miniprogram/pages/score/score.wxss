@@ -1,0 +1,57 @@
+/* pages/score/score.wxss */
+.container { padding-bottom: 40rpx; }
+
+/* 顶部筛选 */
+.filter-bar {
+  background: #fff; padding: 30rpx;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+.student-switch .label { color: #666; font-size: 26rpx; }
+.student-switch .value { font-weight: bold; font-size: 30rpx; color: #333; }
+.exam-picker {
+  background: #f0f7ff; color: var(--primary-color);
+  padding: 10rpx 24rpx; border-radius: 30rpx;
+  font-size: 26rpx; display: flex; align-items: center;
+}
+.arrow { margin-left: 8rpx; font-size: 20rpx; }
+
+/* 成绩总卡片 */
+.score-card {
+  background: linear-gradient(135deg, #3A7CA5 0%, #68A5CE 100%);
+  margin: 30rpx; padding: 40rpx; border-radius: 20rpx;
+  color: #fff; box-shadow: 0 8rpx 20rpx rgba(58, 124, 165, 0.4);
+}
+.score-header { display: flex; justify-content: space-between; align-items: center; }
+.total-score .num { font-size: 80rpx; font-weight: bold; line-height: 1; }
+.total-score .unit { font-size: 28rpx; margin-left: 10rpx; opacity: 0.8; }
+.rank-badge {
+  background: rgba(255,255,255,0.2); padding: 10rpx 20rpx;
+  border-radius: 10rpx; font-size: 26rpx; backdrop-filter: blur(5px);
+}
+.exam-time { margin-top: 30rpx; font-size: 22rpx; opacity: 0.7; text-align: right; }
+
+/* 科目列表 */
+.subject-list {
+  background: #fff; margin: 0 30rpx;
+  border-radius: 20rpx; padding: 10rpx 30rpx;
+}
+.subject-item {
+  display: flex; align-items: center;
+  padding: 30rpx 0; border-bottom: 1rpx solid #f0f0f0;
+}
+.subject-item:last-child { border-bottom: none; }
+.sub-name { width: 80rpx; font-weight: bold; color: #333; font-size: 28rpx; }
+.sub-score { width: 60rpx; text-align: right; font-weight: bold; font-size: 30rpx; color: #333; }
+.empty-box { padding: 100rpx 0; text-align: center; color: #999; }
+
+.progress-box {
+  flex: 1; height: 16rpx; background: #f5f5f5;
+  border-radius: 8rpx; margin: 0 20rpx; overflow: hidden;
+}
+.progress-bar { height: 100%; border-radius: 8rpx; transition: width 1s ease; }
+
+/* === 【核心修改】在这里定义三种颜色的类 === */
+.score-high { background-color: #52C41A; } /* 优秀：绿色 */
+.score-mid  { background-color: #3A7CA5; } /* 及格：蓝色 */
+.score-low  { background-color: #F5222D; } /* 不及格：红色 */

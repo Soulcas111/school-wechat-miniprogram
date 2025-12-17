@@ -1,0 +1,11 @@
+# 忽略依赖包 (如果你的云函数里装了包，这个很重要)
+node_modules/
+miniprogram_npm/
+
+# 忽略开发者工具生成的临时文件
+unpackage/
+dist/
+.DS_Store
+
+# 忽略个人配置 (包含你的隐私设置)
+project.private.config.json

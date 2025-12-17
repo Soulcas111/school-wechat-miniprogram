@@ -1,0 +1,64 @@
+<view class="container">
+  
+  <view class="tabs">
+    <view class="tab-item {{currentTab==0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">
+      今日食谱
+      <view class="indicator" wx:if="{{currentTab==0}}"></view>
+    </view>
+    <view class="tab-item {{currentTab==1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">
+      消费记录
+      <view class="indicator" wx:if="{{currentTab==1}}"></view>
+    </view>
+  </view>
+
+  <view class="content-area" wx:if="{{currentTab == 0}}">
+    <block wx:for="{{menuList}}" wx:key="_id">
+      <view class="menu-card">
+        <view class="date-header">
+          <text class="date">{{item.date}}</text>
+          <text class="weekday">{{item.week_day}}</text>
+        </view>
+        <view class="meal-row">
+          <text class="meal-label breakfast">早餐</text>
+          <text class="meal-content">{{item.meals.breakfast}}</text>
+        </view>
+        <view class="meal-row">
+          <text class="meal-label lunch">午餐</text>
+          <text class="meal-content">{{item.meals.lunch}}</text>
+        </view>
+        <view class="meal-row">
+          <text class="meal-label dinner">晚餐</text>
+          <text class="meal-content">{{item.meals.dinner}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{menuList.length === 0}}" class="empty-tip">暂无食谱发布</view>
+  </view>
+
+  <view class="content-area" wx:if="{{currentTab == 1}}">
+    <view class="balance-card">
+      <view class="balance-title">当前饭卡余额</view>
+      <view class="balance-num">￥128.50</view>
+      <button class="btn-recharge" bindtap="onRecharge">立即充值</button>
+    </view>
+
+    <view class="log-list">
+      <view class="log-title">最近交易记录</view>
+      <block wx:for="{{walletLogs}}" wx:key="_id">
+        <view class="log-item">
+          <view class="log-left">
+            <view class="log-name">{{item.title}}</view>
+            <view class="log-time">{{item.create_time}}</view>
+          </view>
+          <view class="log-right {{item.amount > 0 ? 'income' : ''}}">
+            {{item.amount > 0 ? '+' : ''}}{{item.amount}}
+          </view>
+        </view>
+      </block>
+      
+      <view class="loading-tip" wx:if="{{isLoading}}">加载中...</view>
+      <view class="loading-tip" wx:if="{{!hasMore && walletLogs.length > 0}}">没有更多记录了</view>
+    </view>
+  </view>
+
+</view>

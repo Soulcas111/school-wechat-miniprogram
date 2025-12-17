@@ -1,0 +1,140 @@
+/* pages/dining/dining.wxss */
+.container {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  background: #fff;
+  padding: 0 40rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 30rpx 0;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+
+.tab-item.active {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 30rpx;
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 6rpx;
+  background: var(--primary-color);
+  border-radius: 3rpx;
+}
+
+/* 食谱卡片 */
+.menu-card {
+  background: #fff;
+  margin: 30rpx;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.date-header {
+  border-bottom: 1rpx solid #eee;
+  padding-bottom: 20rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #333;
+}
+
+.weekday { color: var(--primary-color); }
+
+.meal-row {
+  display: flex;
+  margin-bottom: 16rpx;
+}
+
+.meal-label {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  color: #fff;
+  margin-right: 20rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+}
+
+.meal-label.breakfast { background: #FF9800; }
+.meal-label.lunch { background: #F5222D; }
+.meal-label.dinner { background: #3A7CA5; }
+
+.meal-content {
+  flex: 1;
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 余额与充值 */
+.balance-card {
+  background: linear-gradient(135deg, #3A7CA5 0%, #3a5ba5 100%);
+  margin: 30rpx;
+  padding: 40rpx;
+  border-radius: 20rpx;
+  color: #fff;
+  text-align: center;
+}
+
+.balance-title { font-size: 24rpx; opacity: 0.8; }
+.balance-num { font-size: 60rpx; font-weight: bold; margin: 20rpx 0; }
+.btn-recharge {
+  background: #fff;
+  color: var(--primary-color);
+  font-size: 28rpx;
+  border-radius: 40rpx;
+  width: 200rpx;
+}
+
+/* 流水列表 */
+.log-list {
+  background: #fff;
+  margin: 0 30rpx;
+  border-radius: 20rpx;
+  padding: 20rpx 0;
+}
+
+.log-title {
+  padding: 0 30rpx 20rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.log-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  border-bottom: 1rpx solid #f9f9f9;
+}
+
+.log-name { font-size: 28rpx; color: #333; margin-bottom: 6rpx; }
+.log-time { font-size: 22rpx; color: #999; }
+.log-right { font-size: 32rpx; font-weight: bold; color: #333; }
+.log-right.income { color: #52C41A; } /* 充值显示绿色 */
+
+.loading-tip { text-align: center; padding: 20rpx; color: #999; font-size: 24rpx; }
+.empty-tip { text-align: center; padding: 60rpx; color: #999; }

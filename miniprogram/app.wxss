@@ -1,0 +1,51 @@
+/** app.wxss **/
+page {
+  /* --- 颜色主题 --- */
+  --primary-color: #3A7CA5;   /* 主题蓝 */
+  --success-color: #52C41A;   /* 成功绿 */
+  --warning-color: #FAAD14;   /* 警告黄 */
+  --danger-color: #F5222D;    /* 危险红 */
+  --bg-color: #F6F7F9;        /* 背景灰 */
+  
+  /* --- 文字颜色 --- */
+  --text-main: #333333;       /* 主标题 */
+  --text-sub: #666666;        /* 次级文本 */
+  --text-grey: #999999;       /* 辅助文本 */
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+  background-color: var(--bg-color);
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 卡片通用样式 */
+.card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 通用按钮 */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 8rpx;
+  text-align: center;
+  padding: 20rpx 0;
+  font-weight: 500;
+}
+
+.btn-hover {
+  opacity: 0.9;
+}
