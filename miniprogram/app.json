@@ -3,8 +3,8 @@
     "pages/index/index",
     "pages/score/score",
     "pages/dining/dining",
-    "pages/news/news",
     "pages/profile/profile",
+    "pages/news/news",
     "pages/news-detail/news-detail"
   ],
   "window": {
@@ -21,19 +21,27 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "images/首页.png",
+        "selectedIconPath": "images/icons/home-active.png"
       },
       {
         "pagePath": "pages/score/score",
-        "text": "成绩"
+        "text": "成绩",
+        "iconPath": "images/成绩.png",
+        "selectedIconPath": "images/icons/business-active.png"
       },
       {
         "pagePath": "pages/dining/dining",
-        "text": "食堂"
+        "text": "食堂",
+        "iconPath": "images/食堂订餐.png",
+        "selectedIconPath": "images/icons/goods-active.png"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "images/我的.png",
+        "selectedIconPath": "images/icons/usercenter-active.png"
       }
     ]
   },
