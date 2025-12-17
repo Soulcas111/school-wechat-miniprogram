@@ -1,2 +1,38 @@
-<!--pages/profile/profile.wxml-->
-<text>pages/profile/profile.wxml</text>
+<view class="container">
+  
+  <view class="user-card">
+    <view class="avatar-box">
+      <image class="avatar" src="../../images/avatar.png" mode="aspectFill"></image>
+    </view>
+    <view class="info-box">
+      <view class="name">{{userInfo.name || '未登录用户'}}</view>
+      <view class="role-tag">{{userInfo.role == 'parent' ? '家长身份' : '教师身份'}}</view>
+    </view>
+  </view>
+
+  <view class="section-list">
+    <view class="list-item" wx:for="{{menuList}}" wx:key="title">
+      <view class="item-left">
+        <text class="item-icon">{{item.icon}}</text>
+        <text class="item-title">{{item.title}}</text>
+      </view>
+      <text class="item-desc">{{item.desc}}</text>
+    </view>
+  </view>
+
+  <view class="action-group">
+    <button class="btn btn-about" bindtap="onAbout">
+      <text>ℹ️ 关于我们</text>
+      <text class="arrow">></text>
+    </button>
+    <button class="btn btn-cache" bindtap="onClearCache">
+      <text>🧹 清除缓存</text>
+      <text class="arrow">></text>
+    </button>
+  </view>
+
+  <view class="logout-area">
+    <button class="btn-logout" bindtap="onLogout">退出登录</button>
+  </view>
+
+</view>
