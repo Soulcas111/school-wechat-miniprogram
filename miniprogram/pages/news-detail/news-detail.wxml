@@ -1,49 +1,28 @@
 <view class="container">
-  <view class="header">
-    <view class="user-box" wx:if="{{isLogin}}">
-      <view class="greeting">你好，{{userInfo.name}}</view>
-      <view class="role-badge">{{userInfo.role == 'parent' ? '家长端' : '教师端'}}</view>
-    </view>
-    <view class="user-box" wx:else>
-      <view class="greeting">正在登录...</view>
-    </view>
+  
+  <view wx:if="{{loading}}" style="padding: 50rpx; text-align: center;">
+    <text>正在加载内容...</text>
   </view>
 
-  <view class="banner-area">
-    <swiper class="swiper" indicator-dots autoplay circular>
-      <swiper-item wx:for="{{bannerList}}" wx:key="*this">
-        <view class="slide-item" style="background: {{item}};">
-          <text class="slide-text">智慧校园 · 守护成长</text>
-        </view>
-      </swiper-item>
-    </swiper>
-  </view>
-
-  <view class="menu-grid">
-    <view class="menu-item" wx:for="{{menuList}}" wx:key="title" bindtap="onMenuTap" data-url="{{item.url}}">
-      <view class="icon-circle" style="background: {{item.color}};">
-        <text class="emoji">{{item.icon}}</text>
-      </view>
-      <text class="menu-label">{{item.title}}</text>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-head">
-      <view class="title-line"></view>
-      <text class="section-title">校园动态</text>
-    </view>
-    <view class="news-list">
-      <view class="news-card" wx:for="{{newsList}}" wx:key="_id" bindtap="onNewsTap" data-id="{{item._id}}">
-        <view class="news-type {{item.type}}">{{item.type=='news'?'通知':'课程'}}</view>
-        <view class="news-content">
-          <view class="news-title">{{item.title}}</view>
-          <view class="news-meta">
-            <text>{{item.author}}</text>
-            <text>{{item.date}}</text>
-          </view>
-        </view>
+  <view wx:elif="{{news}}" class="content-wrapper">
+    <view class="header">
+      <view class="title">{{news.title}}</view>
+      <view class="meta">
+        <text class="author">{{news.type == 'news' ? '教务处' : '校园通知'}}</text>
+        <text class="time">{{news.dateStr}}</text>
+        <text class="read">阅读 1024+</text>
       </view>
     </view>
+
+    <view class="divider"></view>
+
+    <view class="content">
+      <text class="text-body" user-select>{{news.content}}</text>
+    </view>
   </view>
+
+  <view wx:else style="padding: 50rpx; text-align: center; color: #999;">
+    <text>暂无相关内容</text>
+  </view>
+  
 </view>

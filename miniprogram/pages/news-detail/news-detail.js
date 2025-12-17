@@ -1,6 +1,4 @@
 // pages/news-detail/news-detail.js
-const db = wx.cloud.database()
-
 Page({
   data: {
     news: null,
@@ -8,43 +6,35 @@ Page({
   },
 
   onLoad(options) {
-    console.log('详情页接收到的参数:', options) // 方便调试
-    if (options.id) {
-      this.loadNewsDetail(options.id)
+    console.log('页面加载，ID:', options.id)
+    
+    // 模拟网络延迟，0.5秒后显示数据
+    setTimeout(() => {
+      this.renderMockNews(options.id || '1')
+    }, 500)
+  },
+
+  renderMockNews(id) {
+    // 构造一条模拟新闻
+    const mockData = {
+      _id: id,
+      title: '关于举办秋季运动会的通知',
+      type: 'news',
+      author: '教务处',
+      create_time: new Date().getTime(),
+      content: '【模拟数据模式】\n\n各位家长、同学：\n\n为了丰富校园文化生活，提高学生身体素质，学校定于下周五举办秋季田径运动会。\n\n一、时间：2025年10月24日\n二、地点：学校大操场\n三、参会人员：全校师生\n\n(如果能看到这段文字，说明你的 WXML 和 JS 都完全修好了！)'
     }
-  },
 
-  loadNewsDetail(id) {
-    wx.showLoading({ title: '加载中...' })
-    
-    // 尝试去数据库查
-    db.collection('cms_news').doc(id).get()
-      .then(res => {
-        // 1. 查到了真数据
-        this.renderNews(res.data)
-      })
-      .catch(err => {
-        // 2. 【核心修改】查不到（可能是首页的假数据ID），我们伪造一条数据显示，而不是退出
-        console.log('数据库查询失败，使用模拟数据渲染', err)
-        const mockDetail = {
-          title: '这是测试新闻标题 (ID: ' + id + ')',
-          type: 'news',
-          create_time: new Date(),
-          content: '恭喜你！跳转成功了。\n\n之所以显示这条内容，是因为首页使用的是“模拟数据(ID=1)”，而在你的云数据库里并没有真实ID为1的记录。\n\n但这证明你的【首页跳转逻辑】和【详情页渲染逻辑】都是完全正确的！'
-        }
-        this.renderNews(mockDetail)
-      })
-  },
+    // 格式化时间
+    const d = new Date(mockData.create_time)
+    mockData.dateStr = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
 
-  // 渲染辅助函数
-  renderNews(data) {
-    const d = new Date(data.create_time)
-    data.dateStr = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
-    
+    // 更新界面
     this.setData({
-      news: data,
+      news: mockData,
       loading: false
     })
-    wx.hideLoading()
+    
+    console.log('数据已更新，Loading关闭')
   }
 })
